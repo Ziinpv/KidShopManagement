@@ -44,6 +44,7 @@
             this.guna2Elipse2 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.guna2HtmlToolTip1 = new Guna.UI2.WinForms.Guna2HtmlToolTip();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLoginIcon)).BeginInit();
@@ -58,7 +59,7 @@
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLogin.Location = new System.Drawing.Point(115, 363);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(209, 31);
             this.btnLogin.TabIndex = 3;
@@ -69,7 +70,7 @@
             // txtPassWord
             // 
             this.txtPassWord.Location = new System.Drawing.Point(115, 318);
-            this.txtPassWord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassWord.Margin = new System.Windows.Forms.Padding(2);
             this.txtPassWord.Name = "txtPassWord";
             this.txtPassWord.Size = new System.Drawing.Size(174, 20);
             this.txtPassWord.TabIndex = 2;
@@ -87,7 +88,7 @@
             // txtUserName
             // 
             this.txtUserName.Location = new System.Drawing.Point(115, 259);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(194, 20);
             this.txtUserName.TabIndex = 1;
@@ -117,7 +118,7 @@
             this.picShow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picShow.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.ShowPass;
             this.picShow.Location = new System.Drawing.Point(292, 318);
-            this.picShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picShow.Margin = new System.Windows.Forms.Padding(2);
             this.picShow.Name = "picShow";
             this.picShow.Size = new System.Drawing.Size(27, 19);
             this.picShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -131,7 +132,7 @@
             this.picHide.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picHide.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.HIdePass;
             this.picHide.Location = new System.Drawing.Point(292, 318);
-            this.picHide.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picHide.Margin = new System.Windows.Forms.Padding(2);
             this.picHide.Name = "picHide";
             this.picHide.Size = new System.Drawing.Size(27, 19);
             this.picHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -144,7 +145,7 @@
             // 
             this.picLoginIcon.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.LoginIcon;
             this.picLoginIcon.Location = new System.Drawing.Point(137, 55);
-            this.picLoginIcon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picLoginIcon.Margin = new System.Windows.Forms.Padding(2);
             this.picLoginIcon.Name = "picLoginIcon";
             this.picLoginIcon.Size = new System.Drawing.Size(150, 162);
             this.picLoginIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -155,7 +156,7 @@
             // 
             this.picClose.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.Exit;
             this.picClose.Location = new System.Drawing.Point(384, 10);
-            this.picClose.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picClose.Margin = new System.Windows.Forms.Padding(2);
             this.picClose.Name = "picClose";
             this.picClose.Size = new System.Drawing.Size(32, 49);
             this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -168,7 +169,7 @@
             // 
             this.picShopIcon.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.LoginLogo_ico;
             this.picShopIcon.Location = new System.Drawing.Point(3, 2);
-            this.picShopIcon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picShopIcon.Margin = new System.Windows.Forms.Padding(2);
             this.picShopIcon.Name = "picShopIcon";
             this.picShopIcon.Size = new System.Drawing.Size(75, 81);
             this.picShopIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -212,10 +213,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.picShopIcon);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kid Clothes Store Management System | Login Form";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLoginIcon)).EndInit();
@@ -243,5 +245,6 @@
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse2;
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
+        private System.Windows.Forms.HelpProvider helpProvider1;
     }
 }

@@ -53,24 +53,28 @@ namespace QuanLyShopQuanAoTreEm
         private void btnLogin_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection("Data Source=HOANGPHUC\\SQLEXPRESS;Initial Catalog=KidShop_Login;Integrated Security=True;TrustServerCertificate=True");
-            con.Open();   
-            string query = "SELECT COUNT(*) FROM Login_From WHERE username=@username AND password=@password";
-            SqlCommand cmd =new SqlCommand(query, con);
+            con.Open();
+            string query = "SELECT COUNT(*) FROM dbo.Login_Form WHERE username=@username AND password=@password";
+            SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", txtUserName.Text);
             cmd.Parameters.AddWithValue("@password", txtPassWord.Text);
-            int count=(int)cmd.ExecuteScalar();
+            int count = (int)cmd.ExecuteScalar();
             con.Close();
             if (count > 0)
             {
-                MessageBox.Show("Đăng Nhập Thành Công", " Thông Tin", MessageBoxButtons.OK,MessageBoxIcon.Information );
-
+                MessageBox.Show("Đăng Nhập Thành Công", " Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                FormMain formmain = new FormMain();
+                formmain.name=txtUserName.Text;
+                this.Hide();
+                formmain.Show();
             }
             else
             {
                 MessageBox.Show("lỗi Đăng Nhập");
             }
 
-            //if (txtUserName.Text.Trim()== string.Empty)
+            // Thay đổi code liên kết với database SQL
+            //if (txtUserName.Text.Trim() == string.Empty)
             //{
             //    MessageBox.Show("Vui lòng nhập tên đăng nhập.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //    return;
@@ -83,20 +87,23 @@ namespace QuanLyShopQuanAoTreEm
             //else
             //{
             //    bool chek = Computer.Computer.IsValidNamePass(txtUserName.Text.Trim(), txtPassWord.Text.Trim());
-            //    if (chek) 
+            //    if (chek)
             //    {
-            //        FormMain formMain= new FormMain();
+            //        FormMain formMain = new FormMain();
             //        formMain.ShowDialog();
-            //        EmptyBox(); 
+            //        EmptyBox();
             //    }
             //    else
             //    {
             //        MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //    }
-            //}  
+            //}
 
         }
 
-       
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

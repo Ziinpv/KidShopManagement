@@ -1,6 +1,6 @@
 ﻿namespace QuanLyShopQuanAoTreEm.PAL
 {
-    partial class FormMain
+    partial class ProductForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,63 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pnlMovePanle = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblDateTime = new System.Windows.Forms.Label();
             this.lblUserName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.timerDateAndTime = new System.Windows.Forms.Timer(this.components);
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.btnCLose = new System.Windows.Forms.Button();
             this.btn_SanPham = new System.Windows.Forms.Button();
             this.btn_BaoCao = new System.Windows.Forms.Button();
             this.btn_QuanLy = new System.Windows.Forms.Button();
             this.btn_HoaDon = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.picShopIcon = new System.Windows.Forms.PictureBox();
-            this.panel1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlMovePanle = new System.Windows.Forms.Panel();
+            this.btnCLose = new System.Windows.Forms.Button();
+            this.userControlBrand1 = new QuanLyShopQuanAoTreEm.PAL.UserControlBrand();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picShopIcon)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(67)))), ((int)(((byte)(108)))));
-            this.panel1.Controls.Add(this.pnlMovePanle);
-            this.panel1.Controls.Add(this.btnCLose);
-            this.panel1.Controls.Add(this.btn_SanPham);
-            this.panel1.Controls.Add(this.btn_BaoCao);
-            this.panel1.Controls.Add(this.btn_QuanLy);
-            this.panel1.Controls.Add(this.btn_HoaDon);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.picShopIcon);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 622);
-            this.panel1.TabIndex = 0;
-            // 
-            // pnlMovePanle
-            // 
-            this.pnlMovePanle.BackColor = System.Drawing.Color.White;
-            this.pnlMovePanle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlMovePanle.Location = new System.Drawing.Point(12, 187);
-            this.pnlMovePanle.Name = "pnlMovePanle";
-            this.pnlMovePanle.Size = new System.Drawing.Size(11, 50);
-            this.pnlMovePanle.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 138);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(193, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Quản Lý Shop Quần Áo Trẻ Em";
             // 
             // panel2
             // 
@@ -96,7 +57,7 @@
             this.panel2.Location = new System.Drawing.Point(200, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(842, 100);
-            this.panel2.TabIndex = 1;
+            this.panel2.TabIndex = 3;
             // 
             // lblDateTime
             // 
@@ -110,7 +71,6 @@
             this.lblDateTime.Size = new System.Drawing.Size(43, 29);
             this.lblDateTime.TabIndex = 2;
             this.lblDateTime.Text = "{?}";
-            this.lblDateTime.Click += new System.EventHandler(this.lblDateTime_Click);
             // 
             // lblUserName
             // 
@@ -134,28 +94,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Xin Chào: ";
             // 
-            // guna2Elipse1
-            // 
-            this.guna2Elipse1.BorderRadius = 3;
-            this.guna2Elipse1.TargetControl = this.pnlMovePanle;
-            // 
-            // btnCLose
-            // 
-            this.btnCLose.BackColor = System.Drawing.Color.White;
-            this.btnCLose.FlatAppearance.BorderSize = 0;
-            this.btnCLose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCLose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCLose.ForeColor = System.Drawing.Color.Black;
-            this.btnCLose.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.Screenshot_2024_09_10_043314_removebg_preview;
-            this.btnCLose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCLose.Location = new System.Drawing.Point(40, 547);
-            this.btnCLose.Name = "btnCLose";
-            this.btnCLose.Size = new System.Drawing.Size(154, 41);
-            this.btnCLose.TabIndex = 0;
-            this.btnCLose.Text = "              Đăng Xuất";
-            this.btnCLose.UseVisualStyleBackColor = false;
-            this.btnCLose.Click += new System.EventHandler(this.btnCLose_Click);
-            // 
             // btn_SanPham
             // 
             this.btn_SanPham.BackColor = System.Drawing.Color.White;
@@ -171,7 +109,6 @@
             this.btn_SanPham.TabIndex = 0;
             this.btn_SanPham.Text = "              Sản Phẩm";
             this.btn_SanPham.UseVisualStyleBackColor = false;
-            this.btn_SanPham.Click += new System.EventHandler(this.btn_SanPham_Click);
             // 
             // btn_BaoCao
             // 
@@ -188,7 +125,6 @@
             this.btn_BaoCao.TabIndex = 0;
             this.btn_BaoCao.Text = "              Báo Cáo";
             this.btn_BaoCao.UseVisualStyleBackColor = false;
-            this.btn_BaoCao.Click += new System.EventHandler(this.btn_BaoCao_Click);
             // 
             // btn_QuanLy
             // 
@@ -205,7 +141,6 @@
             this.btn_QuanLy.TabIndex = 0;
             this.btn_QuanLy.Text = "              Quản Lý";
             this.btn_QuanLy.UseVisualStyleBackColor = false;
-            this.btn_QuanLy.Click += new System.EventHandler(this.btn_QuanLy_Click);
             // 
             // btn_HoaDon
             // 
@@ -222,7 +157,17 @@
             this.btn_HoaDon.TabIndex = 0;
             this.btn_HoaDon.Text = "              Hóa Đơn";
             this.btn_HoaDon.UseVisualStyleBackColor = false;
-            this.btn_HoaDon.Click += new System.EventHandler(this.btn_HoaDon_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(3, 138);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(193, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Quản Lý Shop Quần Áo Trẻ Em";
             // 
             // picShopIcon
             // 
@@ -235,45 +180,94 @@
             this.picShopIcon.TabIndex = 16;
             this.picShopIcon.TabStop = false;
             // 
-            // FormMain
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(67)))), ((int)(((byte)(108)))));
+            this.panel1.Controls.Add(this.pnlMovePanle);
+            this.panel1.Controls.Add(this.btnCLose);
+            this.panel1.Controls.Add(this.btn_SanPham);
+            this.panel1.Controls.Add(this.btn_BaoCao);
+            this.panel1.Controls.Add(this.btn_QuanLy);
+            this.panel1.Controls.Add(this.btn_HoaDon);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.picShopIcon);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 622);
+            this.panel1.TabIndex = 2;
+            // 
+            // pnlMovePanle
+            // 
+            this.pnlMovePanle.BackColor = System.Drawing.Color.White;
+            this.pnlMovePanle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMovePanle.Location = new System.Drawing.Point(12, 397);
+            this.pnlMovePanle.Name = "pnlMovePanle";
+            this.pnlMovePanle.Size = new System.Drawing.Size(11, 50);
+            this.pnlMovePanle.TabIndex = 2;
+            // 
+            // btnCLose
+            // 
+            this.btnCLose.BackColor = System.Drawing.Color.White;
+            this.btnCLose.FlatAppearance.BorderSize = 0;
+            this.btnCLose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCLose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCLose.ForeColor = System.Drawing.Color.Black;
+            this.btnCLose.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.Screenshot_2024_09_10_043314_removebg_preview;
+            this.btnCLose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCLose.Location = new System.Drawing.Point(40, 547);
+            this.btnCLose.Name = "btnCLose";
+            this.btnCLose.Size = new System.Drawing.Size(154, 41);
+            this.btnCLose.TabIndex = 0;
+            this.btnCLose.Text = "              Thoát";
+            this.btnCLose.UseVisualStyleBackColor = false;
+            this.btnCLose.Click += new System.EventHandler(this.btnCLose_Click);
+            // 
+            // userControlBrand1
+            // 
+            this.userControlBrand1.BackColor = System.Drawing.Color.White;
+            this.userControlBrand1.Location = new System.Drawing.Point(200, 100);
+            this.userControlBrand1.Name = "userControlBrand1";
+            this.userControlBrand1.Size = new System.Drawing.Size(842, 522);
+            this.userControlBrand1.TabIndex = 4;
+            // 
+            // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1042, 622);
+            this.Controls.Add(this.userControlBrand1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "FormMain";
-            this.Text = "QuanLyShopQuanAoTreEm | MainForm";
+            this.Name = "ProductForm";
+            this.Text = "ProductForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.FormMain_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picShopIcon)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox picShopIcon;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btn_HoaDon;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblDateTime;
+        private System.Windows.Forms.Label lblUserName;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_SanPham;
         private System.Windows.Forms.Button btn_BaoCao;
         private System.Windows.Forms.Button btn_QuanLy;
-        private System.Windows.Forms.Button btnCLose;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblUserName;
-        private System.Windows.Forms.Label lblDateTime;
-        private System.Windows.Forms.Timer timerDateAndTime;
+        private System.Windows.Forms.Button btn_HoaDon;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox picShopIcon;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnlMovePanle;
-        private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
+        private System.Windows.Forms.Button btnCLose;
+        private UserControlBrand userControlBrand1;
     }
 }
