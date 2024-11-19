@@ -13,9 +13,9 @@ using System.Data.SqlClient;
 
 namespace QuanLyShopQuanAoTreEm
 {
-    public partial class LoginForm : Form
+    public partial class frmLogin : Form
     {
-        public LoginForm()
+        public frmLogin()
         {
             InitializeComponent();
         }
@@ -52,7 +52,7 @@ namespace QuanLyShopQuanAoTreEm
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=HOANGPHUC\\SQLEXPRESS;Initial Catalog=KidShop_Login;Integrated Security=True;TrustServerCertificate=True");
+            SqlConnection con = new SqlConnection("Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True");
             con.Open();
             string query = "SELECT COUNT(*) FROM dbo.Login_Form WHERE username=@username AND password=@password";
             SqlCommand cmd = new SqlCommand(query, con);
@@ -63,17 +63,13 @@ namespace QuanLyShopQuanAoTreEm
             if (count > 0)
             {
                 MessageBox.Show("Đăng Nhập Thành Công", " Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                FormMain formmain = new FormMain();
-                formmain.name=txtUserName.Text;
+                frmMainAdmin formmain = new frmMainAdmin();
+                formmain.name = txtUserName.Text;
                 this.Hide();
                 formmain.Show();
             }
-            else
-            {
-                MessageBox.Show("lỗi Đăng Nhập");
-            }
 
-            // Thay đổi code liên kết với database SQL
+            //Thay đổi code liên kết với database SQL
             //if (txtUserName.Text.Trim() == string.Empty)
             //{
             //    MessageBox.Show("Vui lòng nhập tên đăng nhập.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -89,7 +85,7 @@ namespace QuanLyShopQuanAoTreEm
             //    bool chek = Computer.Computer.IsValidNamePass(txtUserName.Text.Trim(), txtPassWord.Text.Trim());
             //    if (chek)
             //    {
-            //        FormMain formMain = new FormMain();
+            //        frmMainAdmin formMain = new frmMainAdmin();
             //        formMain.ShowDialog();
             //        EmptyBox();
             //    }
@@ -104,6 +100,12 @@ namespace QuanLyShopQuanAoTreEm
         private void LoginForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblQuenMK_Click(object sender, EventArgs e)
+        {
+            frmForgotPassWord formForgotPassWord = new frmForgotPassWord();
+            formForgotPassWord.ShowDialog();
         }
     }
 }

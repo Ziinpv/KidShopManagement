@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,6 +45,12 @@
     <Reference Include="Computer">
       <HintPath>..\Computer.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>..\packages\Guna.UI2.WinForms.2.0.4.6\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
@@ -84,6 +91,7 @@
     <Reference Include="System.ClientModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ClientModel.1.0.0\lib\netstandard2.0\System.ClientModel.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.6.0.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
@@ -161,29 +169,59 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PAL\FormMain.cs">
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\Products.cs" />
+    <Compile Include="Models\ShopContext.cs" />
+    <Compile Include="View\frmForgotPassWord.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PAL\FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="View\frmForgotPassWord.Designer.cs">
+      <DependentUpon>frmForgotPassWord.cs</DependentUpon>
     </Compile>
-    <Compile Include="PAL\LoginForm.cs">
+    <Compile Include="View\frmMainAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PAL\LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="View\frmMainAdmin.Designer.cs">
+      <DependentUpon>frmMainAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="PAL\ProductForm.cs">
+    <Compile Include="View\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PAL\ProductForm.Designer.cs">
-      <DependentUpon>ProductForm.cs</DependentUpon>
+    <Compile Include="View\frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="PAL\UserControlBrand.cs">
+    <Compile Include="View\frmMainUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmMainUser.Designer.cs">
+      <DependentUpon>frmMainUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ucProducts.cs">
+      <SubType>UserControl</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="View\ucProducts.Designer.cs">
+      <DependentUpon>ucProducts.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="View\ucReportCheckOut.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PAL\UserControlBrand.Designer.cs">
-      <DependentUpon>UserControlBrand.cs</DependentUpon>
+    <Compile Include="View\ucReportCheckOut.Designer.cs">
+      <DependentUpon>ucReportCheckOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ucReports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\ucReports.Designer.cs">
+      <DependentUpon>ucReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ucUsers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\ucUsers.Designer.cs">
+      <DependentUpon>ucUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,17 +230,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Users_LoginDataSet.xsd</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="PAL\FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <EmbeddedResource Include="View\frmForgotPassWord.resx">
+      <DependentUpon>frmForgotPassWord.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PAL\LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\frmMainAdmin.resx">
+      <DependentUpon>frmMainAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PAL\ProductForm.resx">
-      <DependentUpon>ProductForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PAL\UserControlBrand.resx">
-      <DependentUpon>UserControlBrand.cs</DependentUpon>
+    <EmbeddedResource Include="View\frmMainUser.resx">
+      <DependentUpon>frmMainUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ucProducts.resx">
+      <DependentUpon>ucProducts.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ucReportCheckOut.resx">
+      <DependentUpon>ucReportCheckOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ucReports.resx">
+      <DependentUpon>ucReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ucUsers.resx">
+      <DependentUpon>ucUsers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -299,6 +350,7 @@
   <ItemGroup>
     <None Include="Resources\Screenshot_2024-09-10_042339-removebg-preview2.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -306,5 +358,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
 </Project>

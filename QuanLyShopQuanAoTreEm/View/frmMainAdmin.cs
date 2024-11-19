@@ -1,19 +1,26 @@
-﻿using System;
+﻿
+using QuanLyShopQuanAoTreEm.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyShopQuanAoTreEm.Models;
 
 namespace QuanLyShopQuanAoTreEm.PAL
 {
-    public partial class FormMain : Form
+    public partial class frmMainAdmin : Form
     {
         public string name = "{?}";
-        public FormMain()
+
+       
+        public frmMainAdmin()
         {
             InitializeComponent();
         }
@@ -28,6 +35,9 @@ namespace QuanLyShopQuanAoTreEm.PAL
         //Main Form
         private void FormMain_Load(object sender, EventArgs e)
         {
+            ucReportCheckOut1.Visible = true;
+            ucUsers1.Visible = false;
+            ucProducts1.Visible = false;
             lblUserName.Text=name;
             timerDateAndTime.Stop();
         }
@@ -37,7 +47,7 @@ namespace QuanLyShopQuanAoTreEm.PAL
         private void btnCLose_Click(object sender, EventArgs e)
         {
 
-            Close();
+            Application.Exit();
         }
 
 
@@ -49,23 +59,37 @@ namespace QuanLyShopQuanAoTreEm.PAL
 
         private void btn_HoaDon_Click(object sender, EventArgs e)
         {
+            ucReports1.Visible= false;
+            ucReportCheckOut1.Visible = true;
+            ucUsers1.Visible = false;
+            ucProducts1.Visible = false;
             MovePanel(btn_HoaDon);
         }
 
         private void btn_QuanLy_Click(object sender, EventArgs e)
         {
+            ucReports1.Visible = false;
+            ucUsers1.Visible = true;
+            ucReportCheckOut1.Visible = false;
+            ucProducts1.Visible = false;
             MovePanel(btn_QuanLy);
         }
 
         private void btn_BaoCao_Click(object sender, EventArgs e)
         {
+            ucReports1.Visible = true;
+            ucUsers1.Visible = false;
+            ucProducts1.Visible = false;
+            ucReportCheckOut1.Visible = false;
             MovePanel(btn_BaoCao);
         }
 
         private void btn_SanPham_Click(object sender, EventArgs e)
         {
-            ProductForm productForm = new ProductForm();
-            productForm.ShowDialog();
+            ucReports1.Visible = false;
+            ucUsers1.Visible = false;
+            ucReportCheckOut1.Visible = false;
+            ucProducts1.Visible = true;
             MovePanel(btn_SanPham);
         }
     }

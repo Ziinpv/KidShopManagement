@@ -1,22 +1,33 @@
-﻿using System;
+﻿using Computer;
+using QuanLyShopQuanAoTreEm.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Configuration;
 using System.Windows.Forms;
 
 namespace QuanLyShopQuanAoTreEm.PAL
 {
-    public partial class UserControlBrand : UserControl
+    public partial class ucProducts : UserControl
     {
-        public UserControlBrand()
+        
+        public ucProducts()
         {
             InitializeComponent();
+            
+        }
+
+        public void UpdateProducts(List<Product> products)
+        {
+            dgvSanPham.DataSource = products; // Gán danh sách sản phẩm cho DataGridView  
         }
 
         private void picTimKiemSP_MouseHover(object sender, EventArgs e)
@@ -70,7 +81,7 @@ namespace QuanLyShopQuanAoTreEm.PAL
             }
 
             // Chuỗi kết nối với SQL Server
-            string connectionString = @"your_connection_string_here";  // Thay bằng chuỗi kết nối của bạn
+            string connectionString = @"Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True"; // Thay bằng chuỗi kết nối của bạn
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -135,7 +146,7 @@ namespace QuanLyShopQuanAoTreEm.PAL
         //Cập nhật thông tin sản Phẩm từ btnThemSP vào dgvSanPham
         private void UpdateDataGridView()
         {
-            string connectionString = @"Data Source=HOANGPHUC\SQLEXPRESS;Initial Catalog=KidShop_Login;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"; // Thay bằng chuỗi kết nối của bạn
+            string connectionString = @"Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;Encrypt=True;TrustServerCertificate=True"; // Thay bằng chuỗi kết nối của bạn
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -164,6 +175,40 @@ namespace QuanLyShopQuanAoTreEm.PAL
         {
             dgvSanPham.ContextMenuStrip = cmnuChinhSua; // 'contextMenuStrip1' là ContextMenuStrip của bạn
 
+        }
+
+        private void txtHinh_TextChanged(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(txtHinh.Text))
+            {
+                picAnhSP.ImageLocation = txtHinh.Text;
+            }
+        }
+
+        private void ShowProducts()
+        {
+            using (var dbContext = new ShopContext())
+            {
+                try
+                {
+                    var products = dbContext.Products.ToList();
+                    dgvSanPham.DataSource = products;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi lấy danh sách sản phẩm: " + ex.Message);
+                }
+            }
+        }
+        private List<QuanLyShopQuanAoTreEm.Models.Category> GetCategories()
+        {
+            var dbContext = new ShopContext();
+            return dbContext.Categories.OrderBy(x => x.Name).ToList();
+        }
+
+        private void btnGetCategory_Click(object sender, EventArgs e)
+        {
+            ShowProducts();
         }
     }
 }

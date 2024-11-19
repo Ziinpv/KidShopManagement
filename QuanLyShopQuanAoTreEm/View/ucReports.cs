@@ -10,16 +10,21 @@ using System.Windows.Forms;
 
 namespace QuanLyShopQuanAoTreEm.PAL
 {
-    public partial class ProductForm : Form
+    public partial class ucReports : UserControl
     {
-        public ProductForm()
+        public ucReports()
         {
             InitializeComponent();
         }
 
-        private void btnCLose_Click(object sender, EventArgs e)
+        private void guna2Button2_Click(object sender, EventArgs e)
         {
-            Close();
+
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
