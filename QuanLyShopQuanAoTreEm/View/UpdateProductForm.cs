@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QuanLyShopQuanAoTreEm.PAL
+namespace QuanLyShopQuanAoTreEm.View
 {
-    public partial class frmMainUser : Form
+    public partial class UpdateProductForm : Form
     {
-        public frmMainUser()
+        public UpdateProductForm()
         {
             InitializeComponent();
-        }
-
-        private void frmMainUser_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

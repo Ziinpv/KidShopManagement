@@ -1,4 +1,4 @@
-﻿//using QuanLyShopQuanAoTreEm.PAL;
+﻿using QuanLyShopQuanAoTreEm.PAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

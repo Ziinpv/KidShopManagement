@@ -54,7 +54,7 @@ namespace QuanLyShopQuanAoTreEm
         {
             SqlConnection con = new SqlConnection("Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True");
             con.Open();
-            string query = "SELECT COUNT(*) FROM dbo.Login_Form WHERE username=@username AND password=@password";
+            string query = "SELECT COUNT(*) FROM dbo.Account WHERE username=@username AND password=@password";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", txtUserName.Text);
             cmd.Parameters.AddWithValue("@password", txtPassWord.Text);
