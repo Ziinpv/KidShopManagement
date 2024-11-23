@@ -28,31 +28,41 @@ namespace QuanLyShopQuanAoTreEm.PAL
         //Show Products On ListView And TreeView
         private List<Category> GetCategories()
         {
-            // Khởi tạo đối tượng context
-            var dbContext = new ShopContext();
-            // Lấy danh sách tất cả nhóm quần áo , sắp xếp theo tên
-            return dbContext.Categories.OrderBy(x => x.Name).ToList();
+            using (var dbContext = new ShopContext())
+            {
+                // Lấy danh sách tất cả nhóm quần áo, nếu không có thì trả về danh sách rỗng
+                return dbContext.Categories?.OrderBy(x => x.Name).ToList() ?? new List<Category>();
+            }
         }
+
 
         private void ShowProducts()
         {
-            // Xóa tất cả các nút hiện có trên cây tvwCategory.Nodes.Clear();
+            // Xóa tất cả các nút hiện có trên cây
+            tvwCategory.Nodes.Clear();
+
             // Tạo danh sách loại nhóm quần, áo
-            // Tên của các loại này được hiển thị trên các nút mức 2
             var cateMap = new Dictionary<CategoryType, string>()
             {
-                [CategoryType.Tshirt] = "Áo Thun",
-                [CategoryType.Jacket] = "Áo Khoác",
-                [CategoryType.Poloshirt] = "Áo Polo",
-                [CategoryType.Trouser] = "Quần dài",
-                [CategoryType.Pants] = "Quần đùi",
-                [CategoryType.Shorts] = "Quần Shorts"
+                [CategoryType.Shirts] = "Áo ",
+                [CategoryType.Pants] = "Quần",
+                //[CategoryType.Poloshirt] = "Áo Polo",
+                //[CategoryType.Trouser] = "Quần Dài",
+                //[CategoryType.Pants] = "Quần Đùi",
+                //[CategoryType.Shorts] = "Quần Shorts"
             };
 
             // Tạo nút gốc của cây
-            var rootNode = tvwCategory.Nodes.Add("Tất cȧ");
-            // Lấy danh sách nhóm quần áo 
+            var rootNode = tvwCategory.Nodes.Add("Tất cả");
+
+            // Lấy danh sách nhóm quần áo
             var categories = GetCategories();
+            if (categories == null || categories.Count == 0)
+            {
+                rootNode.Text += " (Không có dữ liệu)";
+                return;
+            }
+
             // Duyệt qua các loại nhóm áo
             foreach (var cateType in cateMap)
             {
@@ -62,107 +72,127 @@ namespace QuanLyShopQuanAoTreEm.PAL
 
                 foreach (var category in categories)
                 {
+                    // Chỉ thêm các nhóm quần áo tương ứng
                     if (category.Type != cateType.Key) continue;
-                    var grantChildNode = childNode.Nodes.Add(category.Id.ToString(), category.Name);
-                    grantChildNode.Tag = category;
+
+                    var existingNode = childNode.Nodes
+                        .Cast<TreeNode>()
+                        .FirstOrDefault(n => n.Name == category.Id.ToString());
+
+                    // Tránh thêm node trùng lặp
+                    if (existingNode == null)
+                    {
+                        var grantChildNode = childNode.Nodes.Add(category.Id.ToString(), category.Name);
+                        grantChildNode.Tag = category;
+                    }
                 }
             }
 
+            // Mở rộng tất cả các nút của cây (nếu cần)
             tvwCategory.ExpandAll();
 
+            // Chọn nút gốc
             tvwCategory.SelectedNode = rootNode;
         }
 
+
         private List<ProductModel> GetProductByCategory(int? categoryId)
         {
-            // Khởi tạo đối tượng context
-            var dbContext = new ShopContext();
-            // Tạo truy vấn lấy danh sách quần óa
-            var foods = dbContext.Products.AsQueryable();
-            // Nếu mã nhóm quần áo khác null và hợp lệ
-            if (categoryId != null && categoryId > 0)
+            using (var dbContext = new ShopContext())
             {
-                foods = foods.Where(x => x.ProductCategoryID == categoryId);
+                var products = dbContext.Products?.AsQueryable();
+
+                if (products == null)
+                    return new List<ProductModel>();
+
+                if (categoryId != null && categoryId > 0)
+                {
+                    products = products.Where(x => x.ProductCategoryID == categoryId);
+                }
+
+                return products.OrderBy(x => x.Name)
+                               .Select(x => new ProductModel
+                               {
+                                   Id = x.Id,
+                                   Name = x.Name,
+                                   Quantity = x.Quantity,
+                                   Size = x.Size,
+                                   Price = x.Price,
+                                   CategoryName = x.Category.Name,
+                                   Notes = x.Notes
+                               })
+                               .ToList();
             }
-            // Thì tìm theo mã số nhóm quần áo
-            // Sắp xếp đồ ăn, thức uống theo tên và trả về // danh sách chứa đầy đủ thông tin về món ăn.
-            return foods
-            .OrderBy(x => x.Name)
-            .Select(x => new ProductModel()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Quantity = x.Quantity,
-                Size = x.Size,
-                Price = x.Price,
-                CategoryName = x.Category.Name,
-                Notes = x.Notes
-            })
-            .ToList();
         }
+
         private List<ProductModel> GetProductByCategoryType(CategoryType cateType)
         {
-            var dbContext = new ShopContext();
-            // Tìm các món ăn theo loại nhóm thức ăn (Category Type). // Sắp xếp đồ ăn, thức uống theo tên và trả về
-            // danh sách chứa đầy đủ thông tin về món ăn.
-            return dbContext.Products
-            .Where(x => x.Category.Type == cateType)
-            .OrderBy(x => x.Name)
-            .Select(x => new ProductModel()
+            using (var dbContext = new ShopContext())
             {
-                Id = x.Id,
-                Name = x.Name,
-                Quantity = x.Quantity,
-                Size= x.Size,
-                Price = x.Price,
-                CategoryName = x.Category.Name,
-                Notes = x.Notes
-            })
-            .ToList();
+                var products = dbContext.Products?.Where(x => x.Category.Type == cateType);
+
+                if (products == null)
+                    return new List<ProductModel>();
+
+                return products.OrderBy(x => x.Name)
+                               .Select(x => new ProductModel
+                               {
+                                   Id = x.Id,
+                                   Name = x.Name,
+                                   Quantity = x.Quantity,
+                                   Size = x.Size,
+                                   Price = x.Price,
+                                   CategoryName = x.Category.Name,
+                                   Notes = x.Notes
+                               })
+                               .ToList();
+            }
         }
+
 
         private void ShowProductForNode(TreeNode node)
         {
-            // Xóa danh sách thực đơn hiện tại khỏi listview
             lvwProducts.Items.Clear();
-            // Nếu node = null, không cần xử lý gì thêm
-            if (node == null) return;
-            // Tạo danh sách để chứa danh sách các món ăn tìm được
-            List<ProductModel> products = null;
-            // Nếu nút được chọn trên TreeView tương ứng với // loại nhóm thức ăn (Category Type) (mức thứ 2 trên cây)
-            if (node.Level == 1)
-            {
-                var categoryType = (CategoryType)node.Tag;
-                products= GetProductByCategoryType(categoryType);
-            }
-            else
-            {
-                // Thì lấy danh sách món ăn theo loại nhóm
 
-                // Ngược lại, lấy danh sách món ăn theo thể loại 1/ Nếu nút được chọn là 'Tất cả' thì lấy hết
-                var category = node.Tag as Category;
-                products = GetProductByCategory(category?.Id);
-                // Gọi hàm để hiển thị các món ăn lên ListView 
+            if (node == null)
+                return;
+
+            List<ProductModel> products = null;
+
+            // Nếu nút là loại nhóm quần áo (Level 1)
+            if (node.Level == 1 && node.Tag is CategoryType categoryType)
+            {
+                products = GetProductByCategoryType(categoryType);
             }
+            else if (node.Tag is Category category)
+            {
+                products = GetProductByCategory(category?.Id);
+            }
+
             ShowProductOnListView(products);
         }
 
+
         private void ShowProductOnListView(List<ProductModel> products)
         {
-            // Duyệt qua từng phần tử của danh sách foodt
+            if (products == null || products.Count == 0)
+            {
+                MessageBox.Show("Không có sản phẩm nào để hiển thị.");
+                return;
+            }
+
             foreach (var productItem in products)
             {
-                // Tạo item tương ứng trên ListView
                 var item = lvwProducts.Items.Add(productItem.Id.ToString());
-                // và hiển thị các thông tin của món ăn
-                item.SubItems.Add(productItem.Name); 
-                item.SubItems.Add(productItem.Quantity);
-                item.SubItems.Add(productItem.Size);
-                item.SubItems.Add(productItem.Price.ToString("##,###"));
-                item.SubItems.Add(productItem.CategoryName);
-                item.SubItems.Add(productItem.Notes);
+                item.SubItems.Add(productItem.Name);
+                item.SubItems.Add(productItem.Quantity.ToString()); // Đảm bảo Quantity là chuỗi
+                item.SubItems.Add(productItem.Size ?? "N/A"); // Kiểm tra null
+                item.SubItems.Add(productItem.Price.ToString("N0")); // Định dạng tiền tệ
+                item.SubItems.Add(productItem.CategoryName ?? "Chưa xác định");
+                item.SubItems.Add(productItem.Notes ?? "Không có ghi chú");
             }
         }
+
         private void btnReloadCategory_Click(object sender, EventArgs e)
         {
             ShowProducts();
@@ -182,15 +212,15 @@ namespace QuanLyShopQuanAoTreEm.PAL
 
      
         // BtnDefalut
-        private void btnMacDinh_Click(object sender, EventArgs e)
-        {
-            txtProductName.Text = "";
-            txtPrices.Text = "";
-            txtQuantity.Text = "";
-            cmbProductCategory.SelectedIndex = 0;
-            cmbSize.SelectedIndex = 0;
-            picProducts.Image=null;
-        }
+        //private void btnMacDinh_Click(object sender, EventArgs e)
+        //{
+        //    txtProductName.Text = "";
+        //    txtPrices.Text = "";
+        //    txtQuantity.Text = "";
+        //    cmbProductCategory.SelectedIndex = 0;
+        //    cmbSize.SelectedIndex = 0;
+        //    picProducts.Image=null;
+        //}
         // BtnDefalut
 
         // Cập nhật sản phẩm lên lsvProducts sau khi thêm 
@@ -206,23 +236,23 @@ namespace QuanLyShopQuanAoTreEm.PAL
 
 
         // Add Products Picture
-        private void txtHinh_TextChanged(object sender, EventArgs e)
-        {
-            if (System.IO.File.Exists(txtHinh.Text))
-            {
-                picProducts.ImageLocation = txtHinh.Text;
-            }
-        }
-        private void btnAddProductPic_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                picProducts.Image = new Bitmap(open.FileName);
-                txtHinh.Text = open.FileName;
-            }
-        }
+        //private void txtHinh_TextChanged(object sender, EventArgs e)
+        //{
+        //    if (System.IO.File.Exists(txtHinh.Text))
+        //    {
+        //        picProducts.ImageLocation = txtHinh.Text;
+        //    }
+        //}
+        //private void btnAddProductPic_Click(object sender, EventArgs e)
+        //{
+        //    OpenFileDialog open = new OpenFileDialog();
+        //    open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+        //    if (open.ShowDialog() == DialogResult.OK)
+        //    {
+        //        picProducts.Image = new Bitmap(open.FileName);
+        //        txtHinh.Text = open.FileName;
+        //    }
+        //}
         // Add Products Picture
 
 

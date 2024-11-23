@@ -15,11 +15,11 @@ namespace QuanLyShopQuanAoTreEm.Models
     }
     public enum CategoryType
     {
-        Tshirt,
-        Jacket,
-        Poloshirt,
-        Trouser,
-        Shorts,
-        Pants
+        Shirts,
+        Pants,
+        //Poloshirt,
+        //Trouser,
+        //Shorts,
+        //Pants
     }
 }
