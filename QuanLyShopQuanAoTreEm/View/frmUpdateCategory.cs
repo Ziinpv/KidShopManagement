@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace QuanLyShopQuanAoTreEm.View
 {
-    public partial class UpdateCategoryForm : Form
+    public partial class frmUpdateCategory : Form
     {
-        public UpdateCategoryForm()
+        public frmUpdateCategory()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace QuanLyShopQuanAoTreEm.View
         private ShopContext _dbContext;
         private int _categoryId;
 
-        public UpdateCategoryForm(int? categoryId = null)
+        public frmUpdateCategory(int? categoryId = null)
         {
             InitializeComponent();
             _dbContext = new ShopContext();
@@ -123,6 +123,11 @@ namespace QuanLyShopQuanAoTreEm.View
                 // Đóng hộp thoại  
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

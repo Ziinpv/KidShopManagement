@@ -35,7 +35,6 @@
             this.guna2Elipse4 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2Elipse5 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.tpManagementProduct = new System.Windows.Forms.TabPage();
-            this.btnDelete = new Guna.UI2.WinForms.Guna2Button();
             this.btnShowAddProduct = new Guna.UI2.WinForms.Guna2Button();
             this.btnReloadProducts = new Guna.UI2.WinForms.Guna2Button();
             this.btnAddCategory = new Guna.UI2.WinForms.Guna2Button();
@@ -48,37 +47,30 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsProduct = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.xóaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvwCategory = new System.Windows.Forms.TreeView();
-            this.brpFilter = new System.Windows.Forms.GroupBox();
-            this.cmbCategoryFilter = new System.Windows.Forms.ComboBox();
-            this.cmbSizeFilter = new System.Windows.Forms.ComboBox();
-            this.lblLoaiSP1 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.txtNameFliter = new System.Windows.Forms.TextBox();
-            this.lblSizeSP1 = new System.Windows.Forms.Label();
-            this.picTimKiemSP = new System.Windows.Forms.PictureBox();
-            this.lblTenSP1 = new System.Windows.Forms.Label();
+            this.cmsCategory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.xóaLoạiSảnPhẩmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTotalProducts = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tbcProducts = new System.Windows.Forms.TabControl();
             this.tpManagementProduct.SuspendLayout();
-            this.brpFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picTimKiemSP)).BeginInit();
+            this.cmsProduct.SuspendLayout();
+            this.cmsCategory.SuspendLayout();
             this.tbcProducts.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpManagementProduct
             // 
             this.tpManagementProduct.BackColor = System.Drawing.Color.White;
-            this.tpManagementProduct.Controls.Add(this.btnDelete);
             this.tpManagementProduct.Controls.Add(this.btnShowAddProduct);
             this.tpManagementProduct.Controls.Add(this.btnReloadProducts);
             this.tpManagementProduct.Controls.Add(this.btnAddCategory);
             this.tpManagementProduct.Controls.Add(this.btnReloadCategory);
             this.tpManagementProduct.Controls.Add(this.lvwProducts);
             this.tpManagementProduct.Controls.Add(this.tvwCategory);
-            this.tpManagementProduct.Controls.Add(this.brpFilter);
             this.tpManagementProduct.Controls.Add(this.lblTotalProducts);
             this.tpManagementProduct.Controls.Add(this.lblTotal);
             this.tpManagementProduct.Controls.Add(this.label7);
@@ -88,24 +80,6 @@
             this.tpManagementProduct.Size = new System.Drawing.Size(828, 490);
             this.tpManagementProduct.TabIndex = 1;
             this.tpManagementProduct.Text = "Quản Lý Sản Phẩm";
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.CustomBorderThickness = new System.Windows.Forms.Padding(10);
-            this.btnDelete.DefaultAutoSize = true;
-            this.btnDelete.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnDelete.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnDelete.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnDelete.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDelete.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(67)))), ((int)(((byte)(108)))));
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(424, 433);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(35, 28);
-            this.btnDelete.TabIndex = 9;
-            this.btnDelete.Text = "-";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnShowAddProduct
             // 
@@ -118,11 +92,12 @@
             this.btnShowAddProduct.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(67)))), ((int)(((byte)(108)))));
             this.btnShowAddProduct.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowAddProduct.ForeColor = System.Drawing.Color.White;
-            this.btnShowAddProduct.Location = new System.Drawing.Point(379, 433);
+            this.btnShowAddProduct.Location = new System.Drawing.Point(279, 433);
             this.btnShowAddProduct.Name = "btnShowAddProduct";
             this.btnShowAddProduct.Size = new System.Drawing.Size(39, 28);
             this.btnShowAddProduct.TabIndex = 9;
             this.btnShowAddProduct.Text = "+";
+            this.btnShowAddProduct.Click += new System.EventHandler(this.btnShowAddProduct_Click);
             // 
             // btnReloadProducts
             // 
@@ -135,7 +110,7 @@
             this.btnReloadProducts.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(67)))), ((int)(((byte)(108)))));
             this.btnReloadProducts.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.btnReloadProducts.ForeColor = System.Drawing.Color.White;
-            this.btnReloadProducts.Location = new System.Drawing.Point(335, 433);
+            this.btnReloadProducts.Location = new System.Drawing.Point(235, 432);
             this.btnReloadProducts.Name = "btnReloadProducts";
             this.btnReloadProducts.Size = new System.Drawing.Size(38, 28);
             this.btnReloadProducts.TabIndex = 9;
@@ -189,15 +164,17 @@
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7});
+            this.lvwProducts.ContextMenuStrip = this.cmsProduct;
             this.lvwProducts.FullRowSelect = true;
             this.lvwProducts.GridLines = true;
             this.lvwProducts.HideSelection = false;
-            this.lvwProducts.Location = new System.Drawing.Point(333, 146);
+            this.lvwProducts.Location = new System.Drawing.Point(235, 26);
             this.lvwProducts.Name = "lvwProducts";
-            this.lvwProducts.Size = new System.Drawing.Size(489, 280);
+            this.lvwProducts.Size = new System.Drawing.Size(587, 400);
             this.lvwProducts.TabIndex = 8;
             this.lvwProducts.UseCompatibleStateImageBehavior = false;
             this.lvwProducts.View = System.Windows.Forms.View.Details;
+            this.lvwProducts.DoubleClick += new System.EventHandler(this.lvwProducts_DoubleClick);
             // 
             // columnHeader1
             // 
@@ -232,128 +209,39 @@
             // 
             this.columnHeader7.Text = "Hình Ảnh";
             // 
+            // cmsProduct
+            // 
+            this.cmsProduct.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xóaToolStripMenuItem});
+            this.cmsProduct.Name = "cmsProduct";
+            this.cmsProduct.Size = new System.Drawing.Size(150, 26);
+            // 
+            // xóaToolStripMenuItem
+            // 
+            this.xóaToolStripMenuItem.Name = "xóaToolStripMenuItem";
+            this.xóaToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.xóaToolStripMenuItem.Text = "Xóa sản phẩm";
+            // 
             // tvwCategory
             // 
-            this.tvwCategory.Location = new System.Drawing.Point(7, 146);
+            this.tvwCategory.ContextMenuStrip = this.cmsCategory;
+            this.tvwCategory.Location = new System.Drawing.Point(7, 26);
             this.tvwCategory.Name = "tvwCategory";
-            this.tvwCategory.Size = new System.Drawing.Size(319, 280);
+            this.tvwCategory.Size = new System.Drawing.Size(222, 400);
             this.tvwCategory.TabIndex = 7;
-            this.tvwCategory.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvwCategory_AfterSelect);
-            this.tvwCategory.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvwCategory_NodeMouseDoubleClick);
             // 
-            // brpFilter
+            // cmsCategory
             // 
-            this.brpFilter.Controls.Add(this.cmbCategoryFilter);
-            this.brpFilter.Controls.Add(this.cmbSizeFilter);
-            this.brpFilter.Controls.Add(this.lblLoaiSP1);
-            this.brpFilter.Controls.Add(this.label22);
-            this.brpFilter.Controls.Add(this.txtNameFliter);
-            this.brpFilter.Controls.Add(this.lblSizeSP1);
-            this.brpFilter.Controls.Add(this.picTimKiemSP);
-            this.brpFilter.Controls.Add(this.lblTenSP1);
-            this.brpFilter.Location = new System.Drawing.Point(7, 26);
-            this.brpFilter.Name = "brpFilter";
-            this.brpFilter.Size = new System.Drawing.Size(815, 113);
-            this.brpFilter.TabIndex = 5;
-            this.brpFilter.TabStop = false;
-            this.brpFilter.Text = "Bộ Lọc Sản Phẩm";
+            this.cmsCategory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xóaLoạiSảnPhẩmToolStripMenuItem});
+            this.cmsCategory.Name = "cmsCategory";
+            this.cmsCategory.Size = new System.Drawing.Size(176, 26);
             // 
-            // cmbCategoryFilter
+            // xóaLoạiSảnPhẩmToolStripMenuItem
             // 
-            this.cmbCategoryFilter.FormattingEnabled = true;
-            this.cmbCategoryFilter.Items.AddRange(new object[] {
-            "-- Hãy Chọn Loại Sản Phẩm--",
-            "Áo Thun",
-            "Áo Khoác",
-            "Áo Polo",
-            "Quần Dài",
-            "Quần Đùi",
-            "Quần Short"});
-            this.cmbCategoryFilter.Location = new System.Drawing.Point(6, 86);
-            this.cmbCategoryFilter.Name = "cmbCategoryFilter";
-            this.cmbCategoryFilter.Size = new System.Drawing.Size(199, 21);
-            this.cmbCategoryFilter.TabIndex = 6;
-            // 
-            // cmbSizeFilter
-            // 
-            this.cmbSizeFilter.Cursor = System.Windows.Forms.Cursors.Default;
-            this.cmbSizeFilter.FormattingEnabled = true;
-            this.cmbSizeFilter.Items.AddRange(new object[] {
-            "--Hãy Chọn Size Sản Phẩm--",
-            "S",
-            "M",
-            "L",
-            "XL"});
-            this.cmbSizeFilter.Location = new System.Drawing.Point(211, 87);
-            this.cmbSizeFilter.Name = "cmbSizeFilter";
-            this.cmbSizeFilter.Size = new System.Drawing.Size(121, 21);
-            this.cmbSizeFilter.TabIndex = 5;
-            // 
-            // lblLoaiSP1
-            // 
-            this.lblLoaiSP1.AutoSize = true;
-            this.lblLoaiSP1.BackColor = System.Drawing.Color.White;
-            this.lblLoaiSP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoaiSP1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblLoaiSP1.Location = new System.Drawing.Point(3, 66);
-            this.lblLoaiSP1.Name = "lblLoaiSP1";
-            this.lblLoaiSP1.Size = new System.Drawing.Size(40, 18);
-            this.lblLoaiSP1.TabIndex = 0;
-            this.lblLoaiSP1.Text = "Loại";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.White;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label22.Location = new System.Drawing.Point(467, 38);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(0, 18);
-            this.label22.TabIndex = 0;
-            // 
-            // txtNameFliter
-            // 
-            this.txtNameFliter.Location = new System.Drawing.Point(3, 40);
-            this.txtNameFliter.Name = "txtNameFliter";
-            this.txtNameFliter.Size = new System.Drawing.Size(329, 20);
-            this.txtNameFliter.TabIndex = 2;
-            // 
-            // lblSizeSP1
-            // 
-            this.lblSizeSP1.AutoSize = true;
-            this.lblSizeSP1.BackColor = System.Drawing.Color.White;
-            this.lblSizeSP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSizeSP1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSizeSP1.Location = new System.Drawing.Point(208, 66);
-            this.lblSizeSP1.Name = "lblSizeSP1";
-            this.lblSizeSP1.Size = new System.Drawing.Size(41, 18);
-            this.lblSizeSP1.TabIndex = 0;
-            this.lblSizeSP1.Text = "Size";
-            // 
-            // picTimKiemSP
-            // 
-            this.picTimKiemSP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picTimKiemSP.Image = global::QuanLyShopQuanAoTreEm.Properties.Resources.Screenshot_2024_09_10_042339_removebg_preview2;
-            this.picTimKiemSP.Location = new System.Drawing.Point(763, 66);
-            this.picTimKiemSP.Name = "picTimKiemSP";
-            this.picTimKiemSP.Size = new System.Drawing.Size(46, 42);
-            this.picTimKiemSP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picTimKiemSP.TabIndex = 4;
-            this.picTimKiemSP.TabStop = false;
-            this.picTimKiemSP.MouseHover += new System.EventHandler(this.picTimKiemSP_MouseHover);
-            // 
-            // lblTenSP1
-            // 
-            this.lblTenSP1.AutoSize = true;
-            this.lblTenSP1.BackColor = System.Drawing.Color.White;
-            this.lblTenSP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTenSP1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblTenSP1.Location = new System.Drawing.Point(3, 19);
-            this.lblTenSP1.Name = "lblTenSP1";
-            this.lblTenSP1.Size = new System.Drawing.Size(118, 18);
-            this.lblTenSP1.TabIndex = 0;
-            this.lblTenSP1.Text = "Tên Sản Phẩm";
+            this.xóaLoạiSảnPhẩmToolStripMenuItem.Name = "xóaLoạiSảnPhẩmToolStripMenuItem";
+            this.xóaLoạiSảnPhẩmToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.xóaLoạiSảnPhẩmToolStripMenuItem.Text = "Xóa Loại Sản Phẩm";
             // 
             // lblTotalProducts
             // 
@@ -409,11 +297,11 @@
             this.Controls.Add(this.tbcProducts);
             this.Name = "ucProducts";
             this.Size = new System.Drawing.Size(842, 522);
+            this.Load += new System.EventHandler(this.ucProducts_Load);
             this.tpManagementProduct.ResumeLayout(false);
             this.tpManagementProduct.PerformLayout();
-            this.brpFilter.ResumeLayout(false);
-            this.brpFilter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picTimKiemSP)).EndInit();
+            this.cmsProduct.ResumeLayout(false);
+            this.cmsCategory.ResumeLayout(false);
             this.tbcProducts.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -426,7 +314,6 @@
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse4;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse5;
         private System.Windows.Forms.TabPage tpManagementProduct;
-        private Guna.UI2.WinForms.Guna2Button btnDelete;
         private Guna.UI2.WinForms.Guna2Button btnShowAddProduct;
         private Guna.UI2.WinForms.Guna2Button btnReloadProducts;
         private Guna.UI2.WinForms.Guna2Button btnAddCategory;
@@ -440,18 +327,13 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.TreeView tvwCategory;
-        private System.Windows.Forms.GroupBox brpFilter;
-        private System.Windows.Forms.ComboBox cmbCategoryFilter;
-        private System.Windows.Forms.ComboBox cmbSizeFilter;
-        private System.Windows.Forms.Label lblLoaiSP1;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox txtNameFliter;
-        private System.Windows.Forms.Label lblSizeSP1;
-        private System.Windows.Forms.PictureBox picTimKiemSP;
-        private System.Windows.Forms.Label lblTenSP1;
         private System.Windows.Forms.Label lblTotalProducts;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabControl tbcProducts;
+        private System.Windows.Forms.ContextMenuStrip cmsProduct;
+        private System.Windows.Forms.ToolStripMenuItem xóaToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip cmsCategory;
+        private System.Windows.Forms.ToolStripMenuItem xóaLoạiSảnPhẩmToolStripMenuItem;
     }
 }
