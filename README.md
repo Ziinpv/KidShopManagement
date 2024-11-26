@@ -12,7 +12,7 @@ KidStoreManagement là một ứng dụng quản lý cửa hàng bán quần áo
 - **Biểu đồ trực quan:** Hiển thị biểu đồ doanh thu và các sản phẩm bán chạy.
 
 ## Công nghệ sử dụng
-- .NET Framework, Entity Framework
+- .NET Framework, ADO.NET
 - Guna.UI2.WinForms
 - SQL Server
 
@@ -32,6 +32,9 @@ cd KidShopManagement
 
 ### 3. Cài đặt các Package cần thiết
 sử dụng **NuGet Package Manager** để cài đặt các package thiếu.
+``
+Update-Database
+``
 
 ### 4. Cấu hình chuỗi kết nối
 Chỉnh sửa file `App.config` trong dự án `KidStoreManagement` để cấu hình chuỗi kết nối đến SQL Server.
