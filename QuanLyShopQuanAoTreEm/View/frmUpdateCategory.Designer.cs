@@ -87,12 +87,8 @@
             this.cbbCategoryType.FormattingEnabled = true;
             this.cbbCategoryType.Items.AddRange(new object[] {
             "---Hãy Chọn Nhóm Mặt Hàng---",
-            "\tÁo Thun",
-            "\tÁo Khoác",
-            "\tÁo Polo",
-            "\tQuần Dài",
-            "\tQuần Đùi",
-            "\tQuần Short"});
+            "\tÁo",
+            "\tQuần"});
             this.cbbCategoryType.Location = new System.Drawing.Point(109, 101);
             this.cbbCategoryType.Name = "cbbCategoryType";
             this.cbbCategoryType.Size = new System.Drawing.Size(220, 21);
@@ -119,7 +115,7 @@
             this.btnCancel.Text = "&Thoát";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // UpdateCategoryForm
+            // frmUpdateCategory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -136,7 +132,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "UpdateCategoryForm";
+            this.Name = "frmUpdateCategory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thêm Và Cập Nhật Nhóm Quần Áo";
             this.Load += new System.EventHandler(this.UpdateCategoryForm_Load);

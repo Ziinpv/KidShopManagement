@@ -85,99 +85,109 @@ namespace QuanLyShopQuanAoTreEm.View
         private void btnSave_Click(object sender, EventArgs e)
         {
             string constr = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True";
-            SqlConnection conn = new SqlConnection(constr);
-            SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = "select ProductID from Product where ProductID = '" + txtID.Text + "'";
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            conn.Open();
-            adapter.Fill(dt);
-            if (dt.Rows.Count == 0)
+            using (SqlConnection conn = new SqlConnection(constr))
             {
-                cmd.CommandText = "INSERT [dbo].[Product] ([ProductID], [ProductName], [Size], [Quantity], [ProductCategoryID],[Price],[Image]) VALUES (@productid, @productname,@size, @quantity,@productcategory,@price,@image)";
-                cmd.Parameters.Add("@productid", SqlDbType.Int);
-                cmd.Parameters.Add("@productname", SqlDbType.NVarChar, 50);
-                cmd.Parameters.Add("@size", SqlDbType.NVarChar, 50);
-                cmd.Parameters.Add("@quantity", SqlDbType.Int);
-                cmd.Parameters.Add("@productcategory", SqlDbType.Int);
-                cmd.Parameters.Add("@price", SqlDbType.Int);
-                cmd.Parameters.Add("@image", SqlDbType.Image);
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
 
-                cmd.Parameters["@productid"].Value = txtID.Text;
-                cmd.Parameters["@productname"].Value = txtName.Text;
-                cmd.Parameters["@size"].Value = cbbSize.SelectedValue;
-                cmd.Parameters["@quantity"].Value = txtName.Text;
-                cmd.Parameters["@productcategory"].Value = cbbCategory.SelectedValue;
-                cmd.Parameters["@price"].Value = txtName.Text;
-                cmd.Parameters["@image"].Value = txtImagePath.Text;
-                int numRowChanged = cmd.ExecuteNonQuery();
-                if (numRowChanged == 1) { MessageBox.Show("Thêm thành công sản phẩm mới"); }
+                // Kiểm tra xem sản phẩm đã tồn tại hay chưa
+                cmd.CommandText = "SELECT COUNT(*) FROM Product WHERE ProductID = @productID";
+                cmd.Parameters.AddWithValue("@productID", txtID.Text);
+
+                int productExists = (int)cmd.ExecuteScalar();
+
+                // Xử lý hình ảnh (đọc file thành byte[])
+                byte[] imageBytes = null;
+                if (!string.IsNullOrEmpty(txtImagePath.Text) && File.Exists(txtImagePath.Text))
+                {
+                    imageBytes = File.ReadAllBytes(txtImagePath.Text);
+                }
+
+                if (productExists == 0) // Sản phẩm chưa tồn tại -> Thêm mới
+                {
+                    cmd.CommandText = @"
+                                        INSERT INTO [dbo].[Product] 
+                                        ([ProductID], [ProductName], [Size], [Quantity], [ProductCategoryID], [Price], [Image]) 
+                                        VALUES (@productID, @productName, @size, @quantity, @productCategory, @price, @image)";
+                }
+                else // Sản phẩm đã tồn tại -> Cập nhật
+                {
+                    cmd.CommandText = @"
+                UPDATE [dbo].[Product]
+                SET [ProductName] = @productName,
+                [Size] = @size,
+                [Quantity] = @quantity,
+                [ProductCategoryID] = @productCategory,
+                [Price] = @price,
+                [Image] = @image
+                WHERE [ProductID] = @productID";
+                }
+
+                // Kiểm tra giá trị của cbbSize.SelectedValue
+                //var sizeValue = cbbSize.SelectedValue;
+                //if (sizeValue == null)
+                //{
+                //    MessageBox.Show("Vui lòng chọn kích thước sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return; // Thoát nếu không có giá trị hợp lệ
+                //}
+
+                // Gán tham số cho câu lệnh SQL
+                cmd.Parameters.AddWithValue("@productName", txtName.Text);
+                cmd.Parameters.AddWithValue("@size", cbbSize.SelectedValue);
+                cmd.Parameters.AddWithValue("@quantity", int.Parse(txtQuantity.Text));
+                cmd.Parameters.AddWithValue("@productCategory", cbbCategory.SelectedValue);
+                cmd.Parameters.AddWithValue("@price", decimal.Parse(txtPrice.Text));
+                cmd.Parameters.AddWithValue("@image", (object)imageBytes ?? DBNull.Value);
+
+                // Thực thi câu lệnh
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                // Hiển thị thông báo
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show(productExists == 0 ? "Thêm sản phẩm thành công" : "Cập nhật sản phẩm thành công");
+                }
                 else
                 {
-                    MessageBox.Show("Thêm sản phẩm mới bị lỗi");
-                }
-            }
-            else
-            {
-                cmd.CommandText = "execute UPDATE Product @productID, @productName,@Size, @Quantity,@productCategory,@Price,@Image";
-                cmd.Parameters.Add("@productID", SqlDbType.Int);
-                cmd.Parameters.Add("@productName", SqlDbType.NVarChar, 50);
-                cmd.Parameters.Add("@Size", SqlDbType.NVarChar, 50);
-                cmd.Parameters.Add("@Quantity", SqlDbType.Int);
-                cmd.Parameters.Add("@productCategory", SqlDbType.Int);
-                cmd.Parameters.Add("@Price", SqlDbType.Int);
-                cmd.Parameters.Add("@Image", SqlDbType.Image);
-
-                cmd.Parameters["@productID"].Value = txtID.Text;
-                cmd.Parameters["@productName"].Value = txtName.Text;
-                cmd.Parameters["@Size"].Value = cbbSize.SelectedValue;
-                cmd.Parameters["@Quantity"].Value = txtName.Text;
-                cmd.Parameters["@productCategory"].Value = cbbCategory.SelectedValue;
-                cmd.Parameters["@Price"].Value = txtName.Text;
-                cmd.Parameters["@Image"].Value = txtImagePath.Text;
-                int numRowChanged = cmd.ExecuteNonQuery();
-                if (numRowChanged == 1) { MessageBox.Show("Cập nhật thành công sản phẩm mới"); }
-                else
-                {
-                    MessageBox.Show("Cập nhật sản phẩm mới bị lỗi");
+                    MessageBox.Show("Không có thay đổi nào được thực hiện");
                 }
             }
 
-            conn.Close();
-            conn.Dispose();
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
         public void ProductInfo(ListViewItem item)
         {
-            LoadCategory();
-            txtID.Text = item.SubItems[0].Text;
-            txtName.Text = item.SubItems[1].Text;
-            txtQuantity.Text = item.SubItems[2].Text;
+            // Gán thông tin từ ListViewItem vào các control
+            txtID.Text = item.SubItems[0].Text; // ProductID
+            txtName.Text = item.SubItems[1].Text; // ProductName
+            txtQuantity.Text = item.SubItems[3].Text; // Quantity
+            txtPrice.Text = item.SubItems[4].Text; // Price
+            txtImagePath.Text = item.SubItems[6].Text; // ImagePath
+
+            // Hiển thị dữ liệu cho cbbSize
+            string selectedSize = item.SubItems[2].Text; // Size
             cbbSize.SelectedIndex = -1;
             for (int i = 0; i < cbbSize.Items.Count; i++)
             {
-                DataRowView ct = cbbCategory.Items[i] as DataRowView;
-                if (string.Compare(ct["Size"].ToString(), item.SubItems[2].Text) == 0)
+                if (cbbSize.Items[i].ToString() == selectedSize)
                 {
-                    selectedIndex = i;
+                    cbbSize.SelectedIndex = i;
                     break;
                 }
             }
+
+            // Hiển thị dữ liệu cho cbbCategory
+            string selectedCategory = item.SubItems[5].Text; // ProductCategory
             cbbCategory.SelectedIndex = -1;
             for (int i = 0; i < cbbCategory.Items.Count; i++)
             {
-                DataRowView ct = cbbCategory.Items[i] as DataRowView;
-                if (string.Compare(ct["Name"].ToString(), item.SubItems[2].Text) == 0)
+                DataRowView category = cbbCategory.Items[i] as DataRowView;
+                if (category != null && string.Compare(category["Name"].ToString(), selectedCategory) == 0)
                 {
-                    selectedIndex = i;
+                    cbbCategory.SelectedIndex = i;
                     break;
                 }
             }
-            txtPrice.Text = item.SubItems[3].Text;
-            txtImagePath.Text = item.SubItems[4].Text;
-            txtImagePath.Text = item.SubItems[4].Text;
 
             // Hiển thị hình ảnh trong PictureBox
             string imagePath = txtImagePath.Text;
@@ -199,6 +209,5 @@ namespace QuanLyShopQuanAoTreEm.View
             }
         }
 
-       
     }
 }

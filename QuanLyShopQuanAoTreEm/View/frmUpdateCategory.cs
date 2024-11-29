@@ -76,7 +76,7 @@ namespace QuanLyShopQuanAoTreEm.View
 
         private bool ValidateUserInput()
         {
-            // Kiểm tra tên nhóm thức ăn đã được nhập hay chưa  
+          
             if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
             {
                 MessageBox.Show("Tên nhóm quần áo không được để trống", "Thông báo");

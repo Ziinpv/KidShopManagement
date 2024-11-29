@@ -39,13 +39,13 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.txtPrice = new System.Windows.Forms.TextBox();
-            this.cbbSize = new System.Windows.Forms.ComboBox();
             this.cbbCategory = new System.Windows.Forms.ComboBox();
             this.picInfo = new System.Windows.Forms.PictureBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDefault = new System.Windows.Forms.Button();
             this.btnImageSearch = new System.Windows.Forms.Button();
             this.txtImagePath = new System.Windows.Forms.TextBox();
+            this.cbbSize = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.picInfo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,14 +140,6 @@
             this.txtPrice.Size = new System.Drawing.Size(226, 20);
             this.txtPrice.TabIndex = 1;
             // 
-            // cbbSize
-            // 
-            this.cbbSize.FormattingEnabled = true;
-            this.cbbSize.Location = new System.Drawing.Point(112, 130);
-            this.cbbSize.Name = "cbbSize";
-            this.cbbSize.Size = new System.Drawing.Size(226, 21);
-            this.cbbSize.TabIndex = 2;
-            // 
             // cbbCategory
             // 
             this.cbbCategory.FormattingEnabled = true;
@@ -161,6 +153,7 @@
             this.picInfo.Location = new System.Drawing.Point(389, 33);
             this.picInfo.Name = "picInfo";
             this.picInfo.Size = new System.Drawing.Size(205, 198);
+            this.picInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picInfo.TabIndex = 3;
             this.picInfo.TabStop = false;
             // 
@@ -203,6 +196,19 @@
             this.txtImagePath.TabIndex = 1;
             this.txtImagePath.TextChanged += new System.EventHandler(this.txtImagePath_TextChanged);
             // 
+            // cbbSize
+            // 
+            this.cbbSize.FormattingEnabled = true;
+            this.cbbSize.Items.AddRange(new object[] {
+            "S",
+            "M",
+            "L",
+            "F"});
+            this.cbbSize.Location = new System.Drawing.Point(112, 130);
+            this.cbbSize.Name = "cbbSize";
+            this.cbbSize.Size = new System.Drawing.Size(226, 21);
+            this.cbbSize.TabIndex = 2;
+            // 
             // frmUpdateProduct
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -213,8 +219,8 @@
             this.Controls.Add(this.btnDefault);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.picInfo);
-            this.Controls.Add(this.cbbCategory);
             this.Controls.Add(this.cbbSize);
+            this.Controls.Add(this.cbbCategory);
             this.Controls.Add(this.txtPrice);
             this.Controls.Add(this.txtImagePath);
             this.Controls.Add(this.txtQuantity);
@@ -250,12 +256,12 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtQuantity;
         private System.Windows.Forms.TextBox txtPrice;
-        private System.Windows.Forms.ComboBox cbbSize;
         private System.Windows.Forms.ComboBox cbbCategory;
         private System.Windows.Forms.PictureBox picInfo;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDefault;
         private System.Windows.Forms.Button btnImageSearch;
         private System.Windows.Forms.TextBox txtImagePath;
+        private System.Windows.Forms.ComboBox cbbSize;
     }
 }

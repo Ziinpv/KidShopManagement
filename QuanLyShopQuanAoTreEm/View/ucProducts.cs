@@ -39,6 +39,15 @@ namespace QuanLyShopQuanAoTreEm.PAL
             adapter.Fill(dt);
             conn.Close();
             conn.Dispose();
+            var categoryMap = new Dictionary<int, string>()
+            {
+                {1, "Áo Thun"},
+                {2, "Áo Khoác"},
+                {3, "Áo Polo"},
+                {4, "Quần Dài"},
+                {5, "Quần Đùi"},
+                {6, "Quần Short"}
+            };
             foreach (DataRow row in dt.Rows)
             {
                 ListViewItem item = new ListViewItem(row["ProductID"].ToString());
@@ -46,8 +55,12 @@ namespace QuanLyShopQuanAoTreEm.PAL
                 item.SubItems.Add(row["Size"].ToString());
                 item.SubItems.Add(row["Quantity"].ToString());
                 item.SubItems.Add(row["Price"].ToString());
-                item.SubItems.Add(row["ProductCategoryID"].ToString());
-                
+                // Lấy ID loại sản phẩm
+                int categoryId = Convert.ToInt32(row["ProductCategoryID"]);
+                // Lấy tên loại sản phẩm từ ánh xạ
+                string categoryName = categoryMap.ContainsKey(categoryId) ? categoryMap[categoryId] : "Loại không xác định";
+                item.SubItems.Add(categoryName);
+
                 if (row["Image"] != DBNull.Value)
                 {
                     byte[] imageData = (byte[])row["Image"];
@@ -159,28 +172,28 @@ namespace QuanLyShopQuanAoTreEm.PAL
             LoadProducts();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            // Nếu không có món ăn nào được chọn, không cần làm gì cả  
-            if (lvwProducts.SelectedItems.Count == 0) return;
+        //private void btnDelete_Click(object sender, EventArgs e)
+        //{
+        //    // Nếu không có món ăn nào được chọn, không cần làm gì cả  
+        //    if (lvwProducts.SelectedItems.Count == 0) return;
 
-            // Ngược lại, lấy mã số của món ăn được chọn  
-            var dbContext = new ShopContext();
-            var selectedFoodId = int.Parse(lvwProducts.SelectedItems[0].Text);
-            // Truy vấn để lấy thông tin của món ăn đó  
-            var selectedFood = dbContext.Products.Find(selectedFoodId);
+        //    // Ngược lại, lấy mã số của món ăn được chọn  
+        //    var dbContext = new ShopContext();
+        //    var selectedFoodId = int.Parse(lvwProducts.SelectedItems[0].Text);
+        //    // Truy vấn để lấy thông tin của món ăn đó  
+        //    var selectedFood = dbContext.Products.Find(selectedFoodId);
 
-            // Nếu tìm thấy thông tin món ăn  
-            if (selectedFood != null)
-            {
-                // Thì xóa khỏi cơ sở dữ liệu  
-                dbContext.Products.Remove(selectedFood);
-                dbContext.SaveChanges();
+        //    // Nếu tìm thấy thông tin món ăn  
+        //    if (selectedFood != null)
+        //    {
+        //        // Thì xóa khỏi cơ sở dữ liệu  
+        //        dbContext.Products.Remove(selectedFood);
+        //        dbContext.SaveChanges();
 
-                // Và đồng thời xóa khỏi ListView  
-                lvwProducts.Items.Remove(lvwProducts.SelectedItems[0]);
-            }
-        }
+        //        // Và đồng thời xóa khỏi ListView  
+        //        lvwProducts.Items.Remove(lvwProducts.SelectedItems[0]);
+        //    }
+        //}
 
         private void ucProducts_Load(object sender, EventArgs e)
         {
@@ -206,6 +219,94 @@ namespace QuanLyShopQuanAoTreEm.PAL
             if (frm.ShowDialog() == DialogResult.OK)
                 LoadProducts();
         }
+
+        private void tvwCategory_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // Lấy nút đang được chọn
+            var selectedNode = e.Node;
+
+            // Nếu nút không có dữ liệu (chỉ là nút gốc), thoát
+            if (selectedNode.Tag == null) return;
+
+            // Lấy ProductCategoryID từ Tag của nút
+            int selectedCategoryId = Convert.ToInt32(selectedNode.Tag);
+
+            // Hiển thị sản phẩm thuộc loại đã chọn
+            LoadProductsByCategory(selectedCategoryId);
+        }
+
+        private void LoadProductsByCategory(int categoryId)
+        {
+            lvwProducts.Items.Clear();
+            string constr = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True";
+            SqlConnection conn = new SqlConnection(constr);
+            SqlCommand cmd = conn.CreateCommand();
+
+            // Lọc sản phẩm dựa trên ProductCategoryID
+            cmd.CommandText = "SELECT ProductID, ProductName, Size, Quantity, Price, Image FROM Product WHERE ProductCategoryID = @CategoryID";
+            cmd.Parameters.AddWithValue("@CategoryID", categoryId);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            conn.Open();
+            adapter.Fill(dt);
+            conn.Close();
+            conn.Dispose();
+            var categoryMap = new Dictionary<int, string>()
+            {
+                {1, "Áo Thun"},
+                {2, "Áo Khoác"},
+                {3, "Áo Polo"},
+                {4, "Quần Dài"},
+                {5, "Quần Đùi"},
+                {6, "Quần Short"}
+            };
+
+            foreach (DataRow row in dt.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["ProductID"].ToString());
+                item.SubItems.Add(row["ProductName"].ToString());
+                item.SubItems.Add(row["Size"].ToString());
+                item.SubItems.Add(row["Quantity"].ToString());
+                item.SubItems.Add(row["Price"].ToString());
+
+
+                // Hiển thị hình ảnh nếu có
+                if (row["Image"] != DBNull.Value)
+                {
+                    byte[] imageData = (byte[])row["Image"];
+                    if (imageData.Length > 0)
+                    {
+                        using (MemoryStream ms = new MemoryStream(imageData))
+                        {
+                            Image image = Image.FromStream(ms);
+                            item.Tag = image; // Gắn hình ảnh vào Tag
+                        }
+                    }
+                }
+                else
+                {
+                    item.SubItems.Add("Không có hình ảnh");
+                }
+
+                lvwProducts.Items.Add(item);
+            }
+        }
+
+        private void tvwCategory_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node == null || e.Node.Level < 2 || e.Node.Tag == null) return;
+
+            var category = e.Node.Tag as Category;
+            var dialog = new frmUpdateCategory(category.Id);
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                LoadProducts();
+            }
+        }
+
+
+
         // Add Category
 
 

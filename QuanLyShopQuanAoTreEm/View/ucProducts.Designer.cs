@@ -229,6 +229,8 @@
             this.tvwCategory.Name = "tvwCategory";
             this.tvwCategory.Size = new System.Drawing.Size(222, 400);
             this.tvwCategory.TabIndex = 7;
+            this.tvwCategory.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvwCategory_AfterSelect);
+            this.tvwCategory.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvwCategory_NodeMouseDoubleClick);
             // 
             // cmsCategory
             // 
