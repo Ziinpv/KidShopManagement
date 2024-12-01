@@ -42,7 +42,7 @@
             this.cbbCategory = new System.Windows.Forms.ComboBox();
             this.picInfo = new System.Windows.Forms.PictureBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnDefault = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.btnImageSearch = new System.Windows.Forms.Button();
             this.txtImagePath = new System.Windows.Forms.TextBox();
             this.cbbSize = new System.Windows.Forms.ComboBox();
@@ -116,6 +116,7 @@
             // 
             this.txtID.Location = new System.Drawing.Point(112, 37);
             this.txtID.Name = "txtID";
+            this.txtID.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(226, 20);
             this.txtID.TabIndex = 1;
             // 
@@ -167,15 +168,15 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // btnDefault
+            // btnUpdate
             // 
-            this.btnDefault.Location = new System.Drawing.Point(263, 287);
-            this.btnDefault.Name = "btnDefault";
-            this.btnDefault.Size = new System.Drawing.Size(75, 23);
-            this.btnDefault.TabIndex = 4;
-            this.btnDefault.Text = "Mặc định";
-            this.btnDefault.UseVisualStyleBackColor = true;
-            this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
+            this.btnUpdate.Location = new System.Drawing.Point(263, 287);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 4;
+            this.btnUpdate.Text = "Cập Nhật";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnImageSearch
             // 
@@ -216,7 +217,7 @@
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(606, 322);
             this.Controls.Add(this.btnImageSearch);
-            this.Controls.Add(this.btnDefault);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.picInfo);
             this.Controls.Add(this.cbbSize);
@@ -259,7 +260,7 @@
         private System.Windows.Forms.ComboBox cbbCategory;
         private System.Windows.Forms.PictureBox picInfo;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnDefault;
+        private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnImageSearch;
         private System.Windows.Forms.TextBox txtImagePath;
         private System.Windows.Forms.ComboBox cbbSize;

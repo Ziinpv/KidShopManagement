@@ -26,6 +26,8 @@ namespace QuanLyShopQuanAoTreEm.View
         {
             LoadCategory();
         }
+
+
         public void LoadCategory()
         {
             string constr = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True";
@@ -44,23 +46,16 @@ namespace QuanLyShopQuanAoTreEm.View
             cbbCategory.SelectedIndex = selectedIndex;
         }
 
-        private void btnDefault_Click(object sender, EventArgs e)
+        private void ResetText()
         {
-            txtID.Text = "";
-            txtName.Text = "";
-            txtQuantity.Text = "";
-            if (cbbSize.Items.Count > 0)
-                cbbSize.SelectedIndex = 0;
-            else
-                cbbSize.SelectedIndex = -1; // Không chọn gì nếu danh sách trống
-
-            if (cbbCategory.Items.Count > 0)
-                cbbCategory.SelectedIndex = 0;
-            else
-                cbbCategory.SelectedIndex = -1; // Không chọn gì nếu danh sách trống
-            txtPrice.Text= "";
-            picInfo.Image = null;
-            txtImagePath.Text = "";
+            txtID.ResetText();
+            txtName.ResetText();
+            txtQuantity.ResetText();
+            cbbSize.ResetText();
+            cbbCategory.ResetText();
+            txtPrice.ResetText();
+            txtImagePath.ResetText();
+            
         }
 
         private void txtImagePath_TextChanged(object sender, EventArgs e)
@@ -84,74 +79,58 @@ namespace QuanLyShopQuanAoTreEm.View
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string constr = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;TrustServerCertificate=True";
-            using (SqlConnection conn = new SqlConnection(constr))
+            try
             {
-                conn.Open();
+                string connectionString = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                SqlConnection conn = new SqlConnection(connectionString);
+
                 SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "EXECUTE InsertProduct @id OUTPUT, @Name, @Size, @Quantity, @ProductCategoryID, @Price";
 
-                // Kiểm tra xem sản phẩm đã tồn tại hay chưa
-                cmd.CommandText = "SELECT COUNT(*) FROM Product WHERE ProductID = @productID";
-                cmd.Parameters.AddWithValue("@productID", txtID.Text);
+                // Thêm tham số vào đối tượng Command  
+                cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@name", SqlDbType.NVarChar, 1000);
+                cmd.Parameters.Add("@size", SqlDbType.NVarChar, 1000);
+                cmd.Parameters.Add("@quantity", SqlDbType.Int); // Sửa kiểu từ NVarChar thành Int nếu Quantity là số
+                cmd.Parameters.Add("@productCategoryID", SqlDbType.Int);
+                cmd.Parameters.Add("@price", SqlDbType.Int);
 
-                int productExists = (int)cmd.ExecuteScalar();
+                // Truyền giá trị vào các tham số  
+                cmd.Parameters["@name"].Value = txtName.Text;
+                cmd.Parameters["@size"].Value = cbbSize.SelectedValue.ToString(); // Kiểm tra giá trị của cbbSize
+                cmd.Parameters["@quantity"].Value = int.Parse(txtQuantity.Text); // Chuyển đổi số lượng thành kiểu Int
+                cmd.Parameters["@productCategoryID"].Value = cbbCategory.SelectedValue;
+                cmd.Parameters["@price"].Value = decimal.Parse(txtPrice.Text); // Nếu cần, chuyển đổi giá thành decimal
 
-                // Xử lý hình ảnh (đọc file thành byte[])
-                byte[] imageBytes = null;
-                if (!string.IsNullOrEmpty(txtImagePath.Text) && File.Exists(txtImagePath.Text))
+                // Kết nối  
+                conn.Open();
+                int numRowAffected = cmd.ExecuteNonQuery();
+
+                // Thông báo kết quả  
+                if (numRowAffected > 0)
                 {
-                    imageBytes = File.ReadAllBytes(txtImagePath.Text);
-                }
-
-                if (productExists == 0) // Sản phẩm chưa tồn tại -> Thêm mới
-                {
-                    cmd.CommandText = @"
-                                        INSERT INTO [dbo].[Product] 
-                                        ([ProductID], [ProductName], [Size], [Quantity], [ProductCategoryID], [Price], [Image]) 
-                                        VALUES (@productID, @productName, @size, @quantity, @productCategory, @price, @image)";
-                }
-                else // Sản phẩm đã tồn tại -> Cập nhật
-                {
-                    cmd.CommandText = @"
-                UPDATE [dbo].[Product]
-                SET [ProductName] = @productName,
-                [Size] = @size,
-                [Quantity] = @quantity,
-                [ProductCategoryID] = @productCategory,
-                [Price] = @price,
-                [Image] = @image
-                WHERE [ProductID] = @productID";
-                }
-
-                // Kiểm tra giá trị của cbbSize.SelectedValue
-                //var sizeValue = cbbSize.SelectedValue;
-                //if (sizeValue == null)
-                //{
-                //    MessageBox.Show("Vui lòng chọn kích thước sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return; // Thoát nếu không có giá trị hợp lệ
-                //}
-
-                // Gán tham số cho câu lệnh SQL
-                cmd.Parameters.AddWithValue("@productName", txtName.Text);
-                cmd.Parameters.AddWithValue("@size", cbbSize.SelectedValue);
-                cmd.Parameters.AddWithValue("@quantity", int.Parse(txtQuantity.Text));
-                cmd.Parameters.AddWithValue("@productCategory", cbbCategory.SelectedValue);
-                cmd.Parameters.AddWithValue("@price", decimal.Parse(txtPrice.Text));
-                cmd.Parameters.AddWithValue("@image", (object)imageBytes ?? DBNull.Value);
-
-                // Thực thi câu lệnh
-                int rowsAffected = cmd.ExecuteNonQuery();
-
-                // Hiển thị thông báo
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show(productExists == 0 ? "Thêm sản phẩm thành công" : "Cập nhật sản phẩm thành công");
+                    string foodID = cmd.Parameters["@id"].Value.ToString();
+                    MessageBox.Show("Successfully adding new food. Food ID: " + foodID, "message");
+                    this.ResetText();
                 }
                 else
                 {
-                    MessageBox.Show("Không có thay đổi nào được thực hiện");
+                    MessageBox.Show("Adding food failed");
                 }
+
+                // đóng kết nối  
+                conn.Close();
+                conn.Dispose();
             }
+            catch (SqlException exception)
+            {
+                MessageBox.Show(exception.Message, "SQL Error");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
+
 
 
         }
@@ -209,5 +188,82 @@ namespace QuanLyShopQuanAoTreEm.View
             }
         }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string connectionString = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                SqlConnection conn = new SqlConnection(connectionString);
+
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "EXECUTE UpdateProduct @id OUTPUT, @Name, @Size, @Quantity, @ProductCategoryID, @Price, @Image";
+
+                // Thêm tham số vào đối tượng Command  
+                cmd.Parameters.Add("@id", SqlDbType.Int);
+                cmd.Parameters.Add("@name", SqlDbType.NVarChar, 1000);
+                cmd.Parameters.Add("@size", SqlDbType.NVarChar, 1000);
+                cmd.Parameters.Add("@quantity", SqlDbType.NVarChar, 100);
+                cmd.Parameters.Add("@productCategoryID", SqlDbType.Int);
+                cmd.Parameters.Add("@price", SqlDbType.Int);
+                cmd.Parameters.Add("@image", SqlDbType.NVarChar, 3000);
+
+                cmd.Parameters["@id"].Direction = ParameterDirection.Output;
+
+                // Truyền giá trị vào các tham số  
+                cmd.Parameters["@name"].Value = txtName.Text;
+                cmd.Parameters["@size"].Value = cbbSize.SelectedValue;
+                cmd.Parameters["@quantity"].Value = txtQuantity.Text;
+                cmd.Parameters["@productCategoryID"].Value = cbbCategory.SelectedValue;
+                cmd.Parameters["@price"].Value = txtPrice.Text;
+                cmd.Parameters["@image"].Value = txtImagePath.Text;
+
+                // Kết nối  
+                conn.Open();
+                int numRowAffected = cmd.ExecuteNonQuery();
+                // Thông báo kết quả  
+                if (numRowAffected > 0)
+                {
+                    MessageBox.Show("Successfully_updating_food", "Message");
+                    this.ResetText();
+                }
+                else
+                {
+                    MessageBox.Show("Updating food failed");
+                }
+
+                // đóng kết nối  
+                conn.Close();
+                conn.Dispose();
+            }
+            // Bắt lỗi SQL và các lỗi khác  
+            catch (SqlException exception)
+            {
+                MessageBox.Show(exception.Message, "SQL_Error");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
+        }
+
+        public void DeleteProduct()
+        {
+            string connectionString = "server=; database=RestaurantManagement; Integrated Security=true; ";
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+
+            // Thiết lập lệnh truy vấn cho đối tượng Command  
+            sqlCommand.CommandText = "DELETE FROM Category " +
+                "WHERE ID = " + txtID.Text;
+
+            sqlConnection.Open();
+
+            // Thực thi lệnh bằng phương thức ExecuteReader  
+            int numOfRowsAffected = sqlCommand.ExecuteNonQuery();
+
+            // Đóng kết nối  
+            sqlConnection.Close();
+            
+        }
     }
 }

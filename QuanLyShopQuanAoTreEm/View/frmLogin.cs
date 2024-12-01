@@ -70,16 +70,16 @@ namespace QuanLyShopQuanAoTreEm
             }
 
             //Thay đổi code liên kết với database SQL
-            //if (txtUserName.Text.Trim() == string.Empty)
-            //{
-            //    MessageBox.Show("Vui lòng nhập tên đăng nhập.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-            //else if (txtPassWord.Text.Trim() == string.Empty)
-            //{
-            //    MessageBox.Show("Vui lòng nhập mật khẩu.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
+            if (txtUserName.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("Vui lòng nhập tên đăng nhập.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else if (txtPassWord.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu.", "Thông tin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             //else
             //{
             //    bool chek = Computer.Computer.IsValidNamePass(txtUserName.Text.Trim(), txtPassWord.Text.Trim());

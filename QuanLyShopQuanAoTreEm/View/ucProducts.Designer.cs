@@ -48,7 +48,7 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsProduct = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.xóaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tvwCategory = new System.Windows.Forms.TreeView();
             this.cmsCategory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.xóaLoạiSảnPhẩmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +56,8 @@
             this.lblTotal = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tbcProducts = new System.Windows.Forms.TabControl();
+            this.tsmUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.tpManagementProduct.SuspendLayout();
             this.cmsProduct.SuspendLayout();
             this.cmsCategory.SuspendLayout();
@@ -212,15 +214,18 @@
             // cmsProduct
             // 
             this.cmsProduct.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xóaToolStripMenuItem});
+            this.tsmDelete,
+            this.tsmUpdate,
+            this.tsmAdd});
             this.cmsProduct.Name = "cmsProduct";
-            this.cmsProduct.Size = new System.Drawing.Size(150, 26);
+            this.cmsProduct.Size = new System.Drawing.Size(181, 92);
             // 
-            // xóaToolStripMenuItem
+            // tsmDelete
             // 
-            this.xóaToolStripMenuItem.Name = "xóaToolStripMenuItem";
-            this.xóaToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.xóaToolStripMenuItem.Text = "Xóa sản phẩm";
+            this.tsmDelete.Name = "tsmDelete";
+            this.tsmDelete.Size = new System.Drawing.Size(180, 22);
+            this.tsmDelete.Text = "Xóa sản phẩm";
+            this.tsmDelete.Click += new System.EventHandler(this.tsmDelete_Click);
             // 
             // tvwCategory
             // 
@@ -291,6 +296,20 @@
             this.tbcProducts.Size = new System.Drawing.Size(836, 516);
             this.tbcProducts.TabIndex = 0;
             // 
+            // tsmUpdate
+            // 
+            this.tsmUpdate.Name = "tsmUpdate";
+            this.tsmUpdate.Size = new System.Drawing.Size(180, 22);
+            this.tsmUpdate.Text = "Cập nhật sản phẩm";
+            this.tsmUpdate.Click += new System.EventHandler(this.tsmUpdate_Click);
+            // 
+            // tsmAdd
+            // 
+            this.tsmAdd.Name = "tsmAdd";
+            this.tsmAdd.Size = new System.Drawing.Size(180, 22);
+            this.tsmAdd.Text = "Thêm sản phẩm";
+            this.tsmAdd.Click += new System.EventHandler(this.tsmAdd_Click);
+            // 
             // ucProducts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,8 +353,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabControl tbcProducts;
         private System.Windows.Forms.ContextMenuStrip cmsProduct;
-        private System.Windows.Forms.ToolStripMenuItem xóaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmDelete;
         private System.Windows.Forms.ContextMenuStrip cmsCategory;
         private System.Windows.Forms.ToolStripMenuItem xóaLoạiSảnPhẩmToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmUpdate;
+        private System.Windows.Forms.ToolStripMenuItem tsmAdd;
     }
 }

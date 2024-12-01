@@ -1,133 +1,127 @@
-﻿using QuanLyShopQuanAoTreEm.Models;
+﻿
+using QuanLyShopQuanAoTreEm.Models;
+using QuanLyShopQuanAoTreEm.PAL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace QuanLyShopQuanAoTreEm.View
 {
     public partial class frmUpdateCategory : Form
     {
+
+        
         public frmUpdateCategory()
         {
             InitializeComponent();
+            
         }
-
-        private ShopContext _dbContext;
-        private int _categoryId;
-
-        public frmUpdateCategory(int? categoryId = null)
+        private void btnLoad_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
-            _dbContext = new ShopContext();
-            _categoryId = categoryId ?? 0;
+            // Tạo chuỗi kết nối tới cơ sở dữ liệu RestaurantManagement  
+            string connectionString = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+            // Tạo đối tượng kết nối  
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            // Thiết lập lệnh truy vấn cho đối tượng Command  
+            string query = "SELECT ID, Name, Type FROM Category";
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandText = query;
+
+            // Mở kết nối cơ sở dữ liệu  
+            sqlConnection.Open();
+
+            // Thực thi lệnh bằng phương thức ExecuteReader  
+            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+            // Gọi hàm hiện thị dữ liệu lên màn hình  
+            this.DisplayCategory(sqlDataReader);
+
+            // Đóng kết nối  
+            sqlConnection.Close();
         }
-
-        private Category GetCategoryById(int categoryId)
+        private void DisplayCategory(SqlDataReader reader)
         {
-            // Nếu ID được truyền vào là hợp lệ, ta tìm thông tin theo ID  
-            // Ngược lại, chỉ cần trả về null, cho biết không thấy.  
-            return categoryId > 0 ? _dbContext.Categories.Find(categoryId) : null;
-        }
+            // Xóa tất cả các dòng hiện tại  
+            lsvCategory.Items.Clear();
 
-        private void ShowCategory()
-        {
-            // Lấy thông tin của món thức ăn  
-            var category = GetCategoryById(_categoryId);
-
-            // Nếu không tìm thấy thông tin, không cần làm gì cả  
-            if (category == null)
+            // Đọc một dòng dữ liệu  
+            while (reader.Read())
             {
-                return;
+                // Tạo một dòng mới trong ListView  
+                ListViewItem item = new ListViewItem(reader["ID"].ToString());
+
+                // Thêm dòng mới vào ListView  
+                item.SubItems.Add(reader["Name"].ToString());
+                item.SubItems.Add(reader["Type"].ToString());
             }
-
-            // Ngược lại, nếu tìm thấy, hiện thị lên form  
-            txtCategoryID.Text = category.Id.ToString();
-            txtCategoryName.Text = category.Name;
-            cbbCategoryType.SelectedIndex = (int)category.Type;
         }
-        private void UpdateCategoryForm_Load(object sender, EventArgs e)
+        private void lvCategory_Click(object sender, EventArgs e)
         {
-            ShowCategory();
+            // Lấy dòng được chọn trong Listview  
+            ListViewItem item = lsvCategory.SelectedItems[0];
+
+            // Hiển thị dữ liệu lên Textbox  
+            txtID.Text = item.Text;
+            txtCategoryName.Text = item.SubItems[1].Text;
+            txtType.Text = item.SubItems[1].Text == "1" ? "Áo" : "Quần";
+
+            // Hiển thị nút cập nhật và xóa  
+            btnDelete.Enabled = true;
         }
-
-        private Category GetUpdatedCategory()
-        {
-            // Tạo đối tượng Category với thông tin đã nhập  
-            var category = new Category()
-            {
-                Name = txtCategoryName.Text.Trim(),
-                Type = (CategoryType)cbbCategoryType.SelectedIndex
-            };
-
-            // Gán giá trị của ID ban đầu (nếu đang cập nhật)  
-            if (_categoryId > 0)
-            {
-                category.Id = _categoryId;
-            }
-
-            return category;
-        }
-
-        private bool ValidateUserInput()
-        {
-          
-            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
-            {
-                MessageBox.Show("Tên nhóm quần áo không được để trống", "Thông báo");
-                return false;
-            }
-
-            // Kiểm tra loại thức ăn đã được chọn hay chưa  
-            if (cbbCategoryType.SelectedIndex < 0)
-            {
-                MessageBox.Show("Bạn chưa chọn loại nhóm quần áo", "Thông báo");
-                return false;
-            }
-
-            return true;
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Kiểm tra nếu dữ liệu nhập vào là hợp lệ  
-            if (ValidateUserInput())
+            // Tạo đối tượng kết nối  
+            string connectionString = "Data Source=HOANGPHUC;Initial Catalog=KidShopManagement;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            // Tạo đối tượng thực thi lệnh  
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+
+            // Thiết lập lệnh truy vấn và cho đối tượng Command  
+            sqlCommand.CommandText = "INSERT INTO Category(Name, [Type])" +
+                                     "VALUES('" + txtCategoryName.Text + "', '" + txtType.Text + "')";
+
+            // Mở kết nối tới cơ sở dữ liệu  
+            sqlConnection.Open();
+
+            // Thực thi lệnh bằng phương thức ExecuteNonQuery  
+            int numOfRowsEffected = sqlCommand.ExecuteNonQuery();
+
+            // Đóng kết nối  
+            sqlConnection.Close();
+
+            if (numOfRowsEffected == 1)
             {
-                // Thì lấy thông tin người dùng nhập vào  
-                var newCategory = GetUpdatedCategory();
-
-                // và thử tìm xem đã có thông thức trong CSDL chưa  
-                var oldCategory = GetCategoryById(_categoryId);
-
-                // Nếu chưa có (chưa tồn tại)  
-                if (oldCategory == null)
-                {
-                    // Thì thêm nhóm thức ăn mới  
-                    _dbContext.Categories.Add(newCategory);
-                }
-                else
-                {
-                    // Ngược lại, ta chỉ cần cập nhật thông tin còn thiếu  
-                    oldCategory.Name = newCategory.Name;
-                    oldCategory.Type = newCategory.Type;
-                }
-
-                // Lưu các thay đổi xuống CSDL  
-                _dbContext.SaveChanges();
-
-                // Đóng hộp thoại  
-                DialogResult = DialogResult.OK;
+                MessageBox.Show("Thêm nhóm quần áo thành công");
+                // Tải lại dữ liệu  
+                btnLoad.PerformClick();
+                // Xóa các ô nhập  
+                txtCategoryName.Text = "";
+                txtType.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("Đã có lỗi xảy ra. Vui lòng thử lại");
             }
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
+        
 
+        private void frmUpdateCategory_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

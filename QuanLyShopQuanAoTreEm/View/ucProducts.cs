@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -158,12 +159,10 @@ namespace QuanLyShopQuanAoTreEm.PAL
     // Add Category
     private void btnAddCategory_Click(object sender, EventArgs e)
         {
-            var dialog = new frmUpdateCategory();
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                LoadProducts();
-            }
+            var updateCategoryForm = new frmUpdateCategory();
+            updateCategoryForm.ShowDialog();
         }
+        
 
     
 
@@ -203,6 +202,15 @@ namespace QuanLyShopQuanAoTreEm.PAL
 
         private void lvwProducts_DoubleClick(object sender, EventArgs e)
         {
+            //if (lvwProducts.SelectedItems.Count > 0)
+            //{
+            //    ListViewItem selectedItem = lvwProducts.SelectedItems[0];
+            //    DataRowView rowView = selectedItem.Tag as DataRowView; // Giả sử bạn đã lưu DataRowView trong Tag  
+
+            //    frmUpdateProduct Form= new frmUpdateProduct();
+
+            //    Form.ProductInfo(selectedItem);
+            //}
             if (lvwProducts.SelectedItems.Count > 0)
             {
                 ListViewItem selectedRow = lvwProducts.SelectedItems[0];
@@ -298,13 +306,59 @@ namespace QuanLyShopQuanAoTreEm.PAL
             if (e.Node == null || e.Node.Level < 2 || e.Node.Tag == null) return;
 
             var category = e.Node.Tag as Category;
-            var dialog = new frmUpdateCategory(category.Id);
+            var dialog = new frmUpdateCategory();
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
                 LoadProducts();
             }
         }
 
+        private void tsmAdd_Click(object sender, EventArgs e)
+        {
+            frmUpdateProduct frmUpdateProduct = new frmUpdateProduct();
+            frmUpdateProduct.Show(this);
+        }
+
+        private void tsmUpdate_Click(object sender, EventArgs e)
+        {
+            if (lvwProducts.SelectedItems.Count > 0)
+            {
+                // Lấy mục được chọn
+                ListViewItem selectedItem = lvwProducts.SelectedItems[0];
+
+                // Tạo form thông tin thực phẩm mới
+                frmUpdateProduct frmUpdateProduct = new frmUpdateProduct();
+
+                // Hiển thị form và truyền thông tin sản phẩm đã chọn
+                frmUpdateProduct.Show(this);
+
+                // Gửi thông tin từ ListViewItem sang form thông tin thực phẩm
+                frmUpdateProduct.ProductInfo(selectedItem);
+            
+            }
+            else
+            {
+                MessageBox.Show("Please select a food item to update.");
+            }
+        }
+
+        private void tsmDelete_Click(object sender, EventArgs e)
+        {
+            int numOfRowsAffected = 1;
+            frmUpdateProduct frmUpdateProduct = new frmUpdateProduct();
+            frmUpdateProduct.Show(this);
+            if (numOfRowsAffected == 1)
+            {
+                // Cập nhật lại dữ liệu trên Listview  
+                ListViewItem item = lvwProducts.SelectedItems[0];
+                lvwProducts.Items.Remove(item);
+
+
+                MessageBox.Show("Xóa nhóm món ăn thành công");
+            }
+        }
+
+        
 
 
         // Add Category
